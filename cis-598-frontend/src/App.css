@@ -20,3 +20,18 @@
 .App-link {
   color: #09d3ac;
 }
+
+.highlight-red{
+  background-color: red;
+}
+
+
+.layout-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.layout-column {
+  display: flex;
+  flex-direction: column;
+}
