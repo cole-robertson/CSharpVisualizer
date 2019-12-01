@@ -1,4 +1,4 @@
-import { IStackTrace } from "./interfaces";
+import { IStackTrace } from "./Interfaces";
 
 const HOSTNAME = "http://localhost:50006";
 

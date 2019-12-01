@@ -7,7 +7,7 @@ import "ace-builds/src-noconflict/mode-csharp";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 import { postCodeToAPI } from './CallAPI';
-import { IStackTrace } from './interfaces';
+import { IStackTrace } from './Interfaces';
 import StackTraceView from './StackTraceView';
 
 interface IProps{}
@@ -47,7 +47,6 @@ export default class VisualizerPage extends React.Component<IProps, IState> {
             <>
                 <AceEditor
                     enableLiveAutocompletion={true}
-                    enableSnippets={true}
                     enableBasicAutocompletion={true}
                     placeholder="Placeholder Text"
                     mode="csharp"
