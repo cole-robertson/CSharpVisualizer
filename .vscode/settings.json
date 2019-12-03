@@ -1,0 +1,9 @@
+{
+    "typescript.tsdk": ".\\cis-598-frontend\\node_modules\\typescript\\lib",
+    "cSpell.words": [
+        "blueprintjs",
+        "monokai",
+        "noconflict",
+        "varnames"
+    ]
+}
