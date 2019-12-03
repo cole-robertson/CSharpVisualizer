@@ -29,15 +29,15 @@ export default class VisualizerPage extends React.Component<IProps, IState> {
     public render(){
         const markers: IMarker[] = [];
         let syntaxError: string | undefined; 
-        if(this.state.stackTraces.length === 1 && this.state.stackTraces[0].exeception_msg){
+        if(this.state.stackTraces.length === 1 && this.state.stackTraces[0].exception_msg){
             const syntaxErrorTrace = this.state.stackTraces[0];
-            syntaxError = syntaxErrorTrace.exeception_msg;
+            syntaxError = syntaxErrorTrace.exception_msg;
             const marker: IMarker = {
                 startCol: 0,
                 endCol: 1,
                 startRow: syntaxErrorTrace.line || 1,
                 endRow: syntaxErrorTrace.line || 1,
-                className: "highlight-red",
+                className: "high`light-red",
                 type: "text",
                 inFront: true
             };
