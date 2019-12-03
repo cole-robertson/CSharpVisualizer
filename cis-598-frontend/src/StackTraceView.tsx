@@ -1,9 +1,16 @@
 import React from "react";
 import "./App.css";
-import { IStackTrace, Dictionary } from "./Interfaces";
+import {
+  IStackTrace,
+  Dictionary,
+  IStackFrame,
+  IVariable,
+  IHeapTrace
+} from "./Interfaces";
 import { Button } from "@blueprintjs/core";
 import { ArcherContainer, ArcherElement } from "react-archer";
-import VariableList from "./VariableList";
+import VariableList from "./Variables/VariableList";
+import StackFrameList from "./StackFrames/StackFrameList";
 
 interface IProps {
   stackTraces: IStackTrace[];
@@ -1154,9 +1161,10 @@ export default class StackTraceView extends React.Component<IProps, IState> {
     // ]
     const exampleHeapTrace = exampleHeapTraceJson.trace;
     const currentTrace: IStackTrace = exampleHeapTrace[this.state.stepNumber];
-    // const stackToRender = currentTrace.stack_to_render;
-    let globals = currentTrace.globals;
-    const heap = currentTrace.heap;
+    const stackToRender: IStackFrame[] | undefined =
+      currentTrace.stack_to_render;
+    let globals: Dictionary<IVariable> | undefined = currentTrace.globals;
+    const heap: IHeapTrace | undefined = currentTrace.heap;
     const heapElements: Dictionary<JSX.Element> = {};
     if (heap) {
       Object.keys(heap).forEach(objIdx => {
@@ -1208,7 +1216,7 @@ export default class StackTraceView extends React.Component<IProps, IState> {
                         className="layout-column"
                         key={`${objectType}-${value}-${index}`}
                       >
-                        {index} :{value}
+                        {index} : {value}
                       </div>
                     );
                   })}
@@ -1253,6 +1261,7 @@ export default class StackTraceView extends React.Component<IProps, IState> {
             <div className="layout-column">
               Stack:
               {globals && <VariableList variables={globals} />}
+              {stackToRender && <StackFrameList stackFrames={stackToRender} />}
             </div>
             <div className="layout-column" style={{ paddingLeft: "40px" }}>
               Heap:
@@ -1300,7 +1309,6 @@ export default class StackTraceView extends React.Component<IProps, IState> {
           }
         />
         <Button
-          // {this.state.stepNumber === this.props.stackTraces.length - 1}
           disabled={this.state.stepNumber === exampleHeapTrace.length - 1}
           text="Next>"
           onClick={() =>

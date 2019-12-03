@@ -1,6 +1,6 @@
 import React from "react";
-import "./App.css";
-import { IVariable } from "./Interfaces";
+import "../App.css";
+import { IVariable } from "../Interfaces";
 import { ArcherElement } from "react-archer";
 
 interface IProps {

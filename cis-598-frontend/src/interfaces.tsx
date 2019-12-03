@@ -6,7 +6,7 @@ export interface IStackTrace {
   func_name?: string;
   heap?: IHeapTrace;
   globals?: Dictionary<IVariable>;
-  stack_to_render?: object[]; // better typing later
+  stack_to_render?: IStackFrame[];
   ordered_globals: string[];
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
-import "./App.css";
-import { IVariable, Dictionary } from "./Interfaces";
+import "../App.css";
+import { IVariable, Dictionary } from "../Interfaces";
 import Variable from "./Variable";
 
 interface IProps {
