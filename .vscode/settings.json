@@ -1,9 +1,17 @@
 {
     "typescript.tsdk": ".\\cis-598-frontend\\node_modules\\typescript\\lib",
     "cSpell.words": [
+        "antialiased",
         "blueprintjs",
+        "esnext",
+        "heaptrace",
+        "interop",
         "monokai",
         "noconflict",
+        "onstatechange",
+        "onupdatefound",
+        "precached",
+        "unmount",
         "varnames"
     ]
 }

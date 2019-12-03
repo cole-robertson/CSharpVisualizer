@@ -24,10 +24,9 @@
   color: #09d3ac;
 }
 
-.highlight-red{
+.highlight-red {
   background-color: red;
 }
-
 
 .layout-row {
   display: flex;
@@ -37,4 +36,8 @@
 .layout-column {
   display: flex;
   flex-direction: column;
+}
+
+.border-black {
+  border: 1px solid black;
 }
