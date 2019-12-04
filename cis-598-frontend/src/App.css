@@ -37,8 +37,6 @@
 .layout-column {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-content: space-between;
 }
 
 .border-black {
@@ -64,7 +62,6 @@
 }
 
 .editor {
-  min-width: 30%;
   margin: 10px;
 }
 

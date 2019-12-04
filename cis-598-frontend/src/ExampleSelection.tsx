@@ -12,12 +12,13 @@ import {
 } from "./Examples";
 
 interface IProps {
+  resetVisualization: () => void;
   setCode: (code: string) => void;
   setStackTraces: (stackTraces: IStackTrace[]) => void;
 }
 
 const ExampleSelection = (props: IProps) => {
-  const { setCode, setStackTraces } = props;
+  const { resetVisualization, setCode, setStackTraces } = props;
 
   const setVisualizerValues = (
     stackTraceObject: { trace: object[]; code: string } | string
@@ -33,9 +34,12 @@ const ExampleSelection = (props: IProps) => {
       <ButtonGroup>
         <Button
           text="Function Call"
-          onClick={() => setVisualizerValues(functionCalls)}
+          onClick={() => {
+            resetVisualization();
+            setVisualizerValues(functionCalls);
+          }}
         />
-        <Button
+        {/* <Button
           text="Print Stdout"
           // onClick={() => setVisualizerValues(printStdout)}
         />
@@ -46,15 +50,19 @@ const ExampleSelection = (props: IProps) => {
         <Button
           text="Data structures"
           // onClick={() => setVisualizerValues(dataStructures)}
-        />
+        /> */}
         <Button
           text="Heap Structures"
-          onClick={() => setVisualizerValues(heapStructures)}
+          onClick={() => {
+            resetVisualization();
+            setVisualizerValues(heapStructures);
+          }}
         />
-        <Button
+        {/* <Button
           text="Simple ints"
           // onClick={() => setVisualizerValues(simpleInts)}
-        />
+        /> */}
+        <Button text="Reset" onClick={resetVisualization} />
       </ButtonGroup>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import {
   IStackTrace,
@@ -28,6 +28,12 @@ const StackTraceView = (props: IProps) => {
   /* Destructure props */
   let { setMarkers, stackTraces } = props;
 
+  useEffect(() => {
+    return () => {
+      setStepNumber(0);
+    };
+  }, [stackTraces]);
+
   if (stackTraces.length === 0) {
     return null;
   } else if (stackTraces.length === 1 && stackTraces[0].exception_msg) {
@@ -48,7 +54,7 @@ const StackTraceView = (props: IProps) => {
   const heap: IHeapTrace | undefined = currentTrace.heap;
 
   return (
-    <div className="layout-column">
+    <div className="layout-column space-between">
       <ArcherContainer strokeColor="red">
         <div className="layout-row">
           <div className="layout-column">
@@ -58,9 +64,7 @@ const StackTraceView = (props: IProps) => {
           </div>
           <div className="layout-column" style={{ paddingLeft: "40px" }}>
             Heap:
-            <div className="layout-row">
-              {heap && <HeapList heapTraces={heap} />}
-            </div>
+            {heap && <HeapList heapTraces={heap} />}
           </div>
         </div>
       </ArcherContainer>

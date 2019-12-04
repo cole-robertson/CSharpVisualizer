@@ -16,52 +16,68 @@ const VisualizerPage = () => {
   const [stackTraces, setStackTraces] = useState<IStackTrace[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [markers, setMarkers] = useState<IMarker[]>([]);
-  return (
-    <div className="layout-column">
-      <ExampleSelection setCode={setCode} setStackTraces={setStackTraces} />
-      <div className="layout-row">
-        <div className="editor">
-          <AceEditor
-            className="editor-min-width"
-            enableLiveAutocompletion={true}
-            enableBasicAutocompletion={true}
-            placeholder="Placeholder Text"
-            mode="csharp"
-            theme="monokai"
-            name="csharpEditor"
-            fontSize={14}
-            showPrintMargin={true}
-            showGutter={true}
-            highlightActiveLine={true}
-            onChange={code => setCode(code)}
-            setOptions={{
-              showLineNumbers: true,
-              tabSize: 2
-            }}
-            value={code}
-            markers={markers}
-          />
+
+  const resetVisualization = () => {
+    setCode("");
+    setStackTraces([]);
+    setLoading(false);
+    setMarkers([]);
+  };
+  try {
+    return (
+      <div className="layout-column">
+        <ExampleSelection
+          resetVisualization={resetVisualization}
+          setCode={setCode}
+          setStackTraces={setStackTraces}
+        />
+        <div className="layout-row">
+          <div className="editor">
+            <AceEditor
+              enableLiveAutocompletion={true}
+              enableBasicAutocompletion={true}
+              placeholder="Placeholder Text"
+              mode="csharp"
+              theme="monokai"
+              name="csharpEditor"
+              fontSize={14}
+              showPrintMargin={true}
+              showGutter={true}
+              highlightActiveLine={true}
+              onChange={code => setCode(code)}
+              setOptions={{
+                showLineNumbers: true,
+                tabSize: 2
+              }}
+              value={code}
+              markers={markers}
+            />
+          </div>
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <StackTraceView stackTraces={stackTraces} setMarkers={setMarkers} />
+          )}
         </div>
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <StackTraceView stackTraces={stackTraces} setMarkers={setMarkers} />
-        )}
+        <Button
+          className="submit-button"
+          intent={Intent.PRIMARY}
+          minimal={true}
+          onClick={async () => {
+            setLoading(true);
+            const stackTracesFromAPI = await postCodeToAPI(code);
+            setStackTraces(stackTracesFromAPI);
+            setLoading(false);
+          }}
+          text="Submit"
+        />
       </div>
-      <Button
-        className="submit-button"
-        intent={Intent.PRIMARY}
-        minimal={true}
-        onClick={async () => {
-          setLoading(true);
-          const stackTracesFromAPI = await postCodeToAPI(code);
-          setStackTraces(stackTracesFromAPI);
-          setLoading(false);
-        }}
-        text="Submit"
-      />
-    </div>
-  );
+    );
+  } catch (e) {
+    console.trace();
+    console.log(e);
+    return null;
+  }
 };
 
 export default VisualizerPage;
