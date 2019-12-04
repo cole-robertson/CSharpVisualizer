@@ -12,7 +12,8 @@ export async function postCodeToAPI(code: string): Promise<IStackTrace[]> {
     },
     method: "POST"
   });
-  const json = await response.json();
-  console.log(json);
+  const jsonString = await response.json();
+  console.log(jsonString);
+  const json = JSON.parse(jsonString);
   return json;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import AceEditor, { IMarker } from "react-ace";
 import { Button, Intent } from "@blueprintjs/core";
@@ -9,81 +9,59 @@ import "ace-builds/src-min-noconflict/ext-language_tools";
 import { postCodeToAPI } from "./CallAPI";
 import { IStackTrace } from "./Interfaces";
 import StackTraceView from "./StackTraceView";
+import ExampleSelection from "./ExampleSelection";
 
-interface IProps {}
+const VisualizerPage = () => {
+  const [code, setCode] = useState<string>("");
+  const [stackTraces, setStackTraces] = useState<IStackTrace[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [markers, setMarkers] = useState<IMarker[]>([]);
+  return (
+    <div className="layout-column">
+      <ExampleSelection setCode={setCode} setStackTraces={setStackTraces} />
+      <div className="layout-row">
+        <div className="editor">
+          <AceEditor
+            className="editor-min-width"
+            enableLiveAutocompletion={true}
+            enableBasicAutocompletion={true}
+            placeholder="Placeholder Text"
+            mode="csharp"
+            theme="monokai"
+            name="csharpEditor"
+            fontSize={14}
+            showPrintMargin={true}
+            showGutter={true}
+            highlightActiveLine={true}
+            onChange={code => setCode(code)}
+            setOptions={{
+              showLineNumbers: true,
+              tabSize: 2
+            }}
+            value={code}
+            markers={markers}
+          />
+        </div>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <StackTraceView stackTraces={stackTraces} setMarkers={setMarkers} />
+        )}
+      </div>
+      <Button
+        className="submit-button"
+        intent={Intent.PRIMARY}
+        minimal={true}
+        onClick={async () => {
+          setLoading(true);
+          const stackTracesFromAPI = await postCodeToAPI(code);
+          setStackTraces(stackTracesFromAPI);
+          setLoading(false);
+        }}
+        text="Submit"
+      />
+    </div>
+  );
+};
 
-interface IState {
-  code: string;
-  stackTraces: IStackTrace[];
-}
-
-export default class VisualizerPage extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      code: "",
-      stackTraces: []
-    };
-  }
-
-  public render() {
-    const markers: IMarker[] = [];
-    let syntaxError: string | undefined;
-    if (
-      this.state.stackTraces.length === 1 &&
-      this.state.stackTraces[0].exception_msg
-    ) {
-      const syntaxErrorTrace = this.state.stackTraces[0];
-      syntaxError = syntaxErrorTrace.exception_msg;
-      const marker: IMarker = {
-        startCol: 0,
-        endCol: 1,
-        startRow: syntaxErrorTrace.line || 1,
-        endRow: syntaxErrorTrace.line || 1,
-        className: "high`light-red",
-        type: "text",
-        inFront: true
-      };
-      markers.push(marker);
-    }
-    return (
-      <>
-        <AceEditor
-          enableLiveAutocompletion={true}
-          enableBasicAutocompletion={true}
-          placeholder="Placeholder Text"
-          mode="csharp"
-          theme="monokai"
-          name="csharpEditor"
-          fontSize={14}
-          showPrintMargin={true}
-          showGutter={true}
-          highlightActiveLine={true}
-          onChange={code => this.setState({ code })}
-          setOptions={{
-            showLineNumbers: true,
-            tabSize: 2
-          }}
-          value={this.state.code}
-          markers={markers}
-        />
-        <StackTraceView
-          stackTraces={this.state.stackTraces}
-          syntaxError={syntaxError}
-        />
-        <Button
-          intent={Intent.PRIMARY}
-          minimal={true}
-          onClick={this.postCodeToStackTrace}
-          text="Submit"
-        />
-      </>
-    );
-  }
-
-  private postCodeToStackTrace = async () => {
-    const { code } = this.state;
-    const stackTraces: IStackTrace[] = await postCodeToAPI(code);
-    this.setState({ stackTraces });
-  };
-}
+export default VisualizerPage;

@@ -26,6 +26,7 @@
 
 .highlight-red {
   background-color: red;
+  opacity: 20%;
 }
 
 .layout-row {
@@ -36,8 +37,43 @@
 .layout-column {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-content: space-between;
 }
 
 .border-black {
   border: 1px solid black;
+}
+
+.error-text {
+  color: red;
+}
+
+.margin-bottom {
+  margin-top: 0;
+  padding: 10px;
+}
+
+.space-between {
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+.resize {
+  resize: both;
+}
+
+.editor {
+  min-width: 30%;
+  margin: 10px;
+}
+
+.submit-button {
+  margin: 5px;
+  padding: 10px;
+  width: 100px;
+}
+
+.padding {
+  padding: 10px;
 }

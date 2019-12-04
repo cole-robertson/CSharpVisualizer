@@ -3,15 +3,18 @@
     "cSpell.words": [
         "antialiased",
         "blueprintjs",
+        "destructure",
         "esnext",
         "heaptrace",
         "interop",
+        "ints",
         "monokai",
         "noconflict",
         "onstatechange",
         "onupdatefound",
         "precached",
         "unmount",
+        "unmounts",
         "varnames"
     ]
 }

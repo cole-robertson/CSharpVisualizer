@@ -11,8 +11,8 @@ const StackFrameList = (props: IProps) => {
   const { stackFrames } = props;
   return (
     <div className="layout-column">
-      {stackFrames.map(stackFrame => {
-        return <StackFrame stackFrame={stackFrame} />;
+      {stackFrames.map((stackFrame, index) => {
+        return <StackFrame stackFrame={stackFrame} key={index} />;
       })}
     </div>
   );
